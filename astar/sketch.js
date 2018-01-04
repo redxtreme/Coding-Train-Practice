@@ -154,7 +154,9 @@ function draw() {
 
       // If the neighbor is not in the closed set and not a wall
       if (!closedSet.includes(neighbor) && !neighbor.wall) {
-        var tempG = current.g + 1;
+        var tempG = current.g + 1; //heuristic(neighbor, current);
+
+        var newPath = false;
 
         // Is this something I've evaluated before
         if (openSet.includes(neighbor)) {
@@ -162,20 +164,26 @@ function draw() {
           // Is this new path more efficient than the old path
           if (tempG < neighbor.g) {
             neighbor.g = tempG;
+            newPath = true;
           }
-        } else {
+        }
+        else {
           neighbor.g = tempG;
+          newPath = true;
           openSet.push(neighbor);
         }
 
-        // Guess how long it will take using heuristics
-        neighbor.h = heuristic(neighbor, end);
+        // Only update if a newPath has been found
+        if (newPath) {
+          // Guess how long it will take using heuristics
+          neighbor.h = heuristic(neighbor, end);
 
-        // Calculate the score for the neighbor
-        neighbor.f = neighbor.g + neighbor.h;
+          // Calculate the score for the neighbor
+          neighbor.f = neighbor.g + neighbor.h;
 
-        // Set the parent node
-        neighbor.previous = current
+          // Set the parent node
+          neighbor.previous = current
+        }
       }
     }
   } else {
