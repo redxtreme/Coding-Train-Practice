@@ -8,6 +8,7 @@ var start;
 var end;
 var w, h;
 var path = [];
+var noSolution = false;
 
 // Find an element and erase it from the given array
 function removeFromArray(arr, elt) {
@@ -15,7 +16,7 @@ function removeFromArray(arr, elt) {
   //TODO use indexOf instead
 
   for (var i = arr.length; i >= 0; i--) {
-    if(arr[i] === elt) {
+    if (arr[i] === elt) {
       arr.splice(i, 1);
     }
   }
@@ -63,13 +64,13 @@ function Spot(i, j) {
     var j = this.j;
 
     if (i < cols - 1)
-    this.neighbors.push(grid[i + 1][j]);
+      this.neighbors.push(grid[i + 1][j]);
     if (i > 0)
-    this.neighbors.push(grid[i - 1][j]);
+      this.neighbors.push(grid[i - 1][j]);
     if (j < rows - 1)
-    this.neighbors.push(grid[i][j + 1]);
+      this.neighbors.push(grid[i][j + 1]);
     if (j > 0)
-    this.neighbors.push(grid[i][j - 1]);
+      this.neighbors.push(grid[i][j - 1]);
   }
 }
 
@@ -106,7 +107,7 @@ function setup() {
   end = grid[cols - 1][rows - 1];
   start.wall = false;
   end.wall = false;
-  
+
   // Initiate the starting point
   openSet.push(start);
 }
@@ -131,7 +132,6 @@ function draw() {
 
       // Stop the looping
       noLoop();
-
       console.log('DONE!');
     }
 
@@ -153,8 +153,7 @@ function draw() {
           if (tempG < neighbor.g) {
             neighbor.g = tempG;
           }
-        }
-        else {
+        } else {
           neighbor.g = tempG;
           openSet.push(neighbor);
         }
@@ -171,9 +170,10 @@ function draw() {
     }
 
     //we can keep going
-  }
-  else {
-    // no solution
+  } else {
+    console.log('No solution');
+    noSolution = true;
+    noLoop();
   }
 
   background(0);
@@ -195,13 +195,16 @@ function draw() {
     openSet[i].show(color(0, 255, 0));
   }
 
-  // Find the path via tracing backwards from the current spot
-  path = [];
-  var temp = current;
-  path.push(temp);
-  while (temp.previous) {
-    path.push(temp.previous);
-    temp = temp.previous;
+  if (!noSolution) {
+
+    // Find the path via tracing backwards from the current spot
+    path = [];
+    var temp = current;
+    path.push(temp);
+    while (temp.previous) {
+      path.push(temp.previous);
+      temp = temp.previous;
+    }
   }
 
   // Draw the current optimal path
