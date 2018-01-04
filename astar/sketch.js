@@ -167,7 +167,7 @@ function draw() {
             newPath = true;
           }
         }
-        else {
+        else { // Wasn't in the openSet
           neighbor.g = tempG;
           newPath = true;
           openSet.push(neighbor);
@@ -175,6 +175,7 @@ function draw() {
 
         // Only update if a newPath has been found
         if (newPath) {
+          
           // Guess how long it will take using heuristics
           neighbor.h = heuristic(neighbor, end);
 
