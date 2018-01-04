@@ -43,7 +43,7 @@ function Spot(i, j) {
   this.previous = undefined;
   this.wall = false;
 
-  if (random(1) < 0.1)
+  if (random(1) < 0.3)
     this.wall = true;
 
   // Draws the spot
@@ -104,7 +104,9 @@ function setup() {
   // Pick the start and end positions
   start = grid[0][0];
   end = grid[cols - 1][rows - 1];
-
+  start.wall = false;
+  end.wall = false;
+  
   // Initiate the starting point
   openSet.push(start);
 }
