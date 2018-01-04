@@ -41,10 +41,19 @@ function Spot(i, j) {
   this.h = 0;
   this.neighbors = [];
   this.previous = undefined;
+  this.wall = false;
+
+  if (random(1) < 0.1)
+    this.wall = true;
 
   // Draws the spot
   this.show = function(color) {
     fill(color);
+
+    // Change color if spot is a wall
+    if (this.wall)
+      fill(0);
+
     noStroke();
     rect(this.i * w, this.j * h, w - 1, h - 1);
   }
@@ -131,8 +140,8 @@ function draw() {
     for (var i = 0; i < neighbors.length; i++) {
       var neighbor = neighbors[i];
 
-      // If the neighbor is not in the closed set
-      if (!closedSet.includes(neighbor)) {
+      // If the neighbor is not in the closed set and not a wall
+      if (!closedSet.includes(neighbor) && !neighbor.wall) {
         var tempG = current.g + 1;
 
         // Is this something I've evaluated before
@@ -174,10 +183,12 @@ function draw() {
     }
   }
 
+  // Draw the closed set
   for (var i = 0; i < closedSet.length; i++) {
     closedSet[i].show(color(255, 0, 0));
   }
 
+  // Draw the open set
   for (var i = 0; i < openSet.length; i++) {
     openSet[i].show(color(0, 255, 0));
   }
@@ -191,6 +202,7 @@ function draw() {
     temp = temp.previous;
   }
 
+  // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
     path[i].show(color(0, 0, 255));
   }
