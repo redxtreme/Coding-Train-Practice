@@ -8,7 +8,6 @@ var start;
 var end;
 var w, h;
 var path = [];
-var noSolution = false;
 
 // Find an element and erase it from the given array
 function removeFromArray(arr, elt) {
@@ -71,6 +70,16 @@ function Spot(i, j) {
       this.neighbors.push(grid[i][j + 1]);
     if (j > 0)
       this.neighbors.push(grid[i][j - 1]);
+
+    // Diagonal neighbors
+    if (i > 0 && j > 0)
+      this.neighbors.push(grid[i - 1][j - 1]);
+    if (i < cols - 1 && j > 0)
+      this.neighbors.push(grid[i + 1][j - 1]);
+    if (i > 0 && j < rows - 1)
+      this.neighbors.push(grid[i - 1][j + 1]);
+    if (i < cols - 1 && j < rows - 1)
+      this.neighbors.push(grid[i + 1][j + 1]);
   }
 }
 
@@ -168,12 +177,10 @@ function draw() {
         neighbor.previous = current
       }
     }
-
-    //we can keep going
   } else {
     console.log('No solution');
-    noSolution = true;
     noLoop();
+    return;
   }
 
   background(0);
@@ -195,17 +202,15 @@ function draw() {
     openSet[i].show(color(0, 255, 0));
   }
 
-  if (!noSolution) {
-
-    // Find the path via tracing backwards from the current spot
-    path = [];
-    var temp = current;
-    path.push(temp);
-    while (temp.previous) {
-      path.push(temp.previous);
-      temp = temp.previous;
-    }
+  // Find the path via tracing backwards from the current spot
+  path = [];
+  var temp = current;
+  path.push(temp);
+  while (temp.previous) {
+    path.push(temp.previous);
+    temp = temp.previous;
   }
+
 
   // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
