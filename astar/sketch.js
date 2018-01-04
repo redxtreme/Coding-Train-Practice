@@ -25,10 +25,10 @@ function removeFromArray(arr, elt) {
 function heuristic(a, b) {
 
   // Euclitian distance
-  var d = dist(a.i, a.j, b.i, b.j);
+  //var d = dist(a.i, a.j, b.i, b.j);
 
   // Manhattin distance
-  //var d = abs(a.i - b.i) + (a.j - b.j); // dist is part of p5
+  var d = abs(a.i - b.i) + abs(a.j - b.j); // dist is part of p5
   return d;
 }
 
