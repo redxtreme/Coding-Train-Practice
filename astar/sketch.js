@@ -25,10 +25,10 @@ function removeFromArray(arr, elt) {
 function heuristic(a, b) {
 
   // Euclitian distance
-  //var d = dist(a.i, a.j, b.i, b.j);
+  var d = dist(a.i, a.j, b.i, b.j);
 
   // Manhattin distance
-  var d = abs(a.i - b.i) + abs(a.j - b.j); // dist is part of p5
+  //var d = abs(a.i - b.i) + abs(a.j - b.j); // dist is part of p5
   return d;
 }
 
@@ -55,7 +55,7 @@ function Spot(i, j) {
       fill(0);
 
     noStroke();
-    rect(this.i * w, this.j * h, w - 1, h - 1);
+    rect(this.i * w, this.j * h, w, h);
   }
 
   this.addNeighbors = function(grid) {
@@ -154,7 +154,7 @@ function draw() {
 
       // If the neighbor is not in the closed set and not a wall
       if (!closedSet.includes(neighbor) && !neighbor.wall) {
-        var tempG = current.g + 1; //heuristic(neighbor, current);
+        var tempG = current.g + heuristic(neighbor, current);
 
         var newPath = false;
 
@@ -166,8 +166,7 @@ function draw() {
             neighbor.g = tempG;
             newPath = true;
           }
-        }
-        else { // Wasn't in the openSet
+        } else { // Wasn't in the openSet
           neighbor.g = tempG;
           newPath = true;
           openSet.push(neighbor);
@@ -175,7 +174,7 @@ function draw() {
 
         // Only update if a newPath has been found
         if (newPath) {
-          
+
           // Guess how long it will take using heuristics
           neighbor.h = heuristic(neighbor, end);
 
@@ -221,9 +220,18 @@ function draw() {
     temp = temp.previous;
   }
 
-
   // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
     path[i].show(color(0, 0, 255));
   }
+
+  // Draw path as line
+  noFill();
+  stroke(255);
+  beginShape();
+  // Draw the current optimal path
+  for (var i = 0; i < path.length; i++) {
+    vertex(path[i].i * w + w / 2, path[i].j * h + h / 2);
+  }
+  endShape();
 }
