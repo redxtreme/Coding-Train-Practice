@@ -48,14 +48,14 @@ function Spot(i, j) {
 
   // Draws the spot
   this.show = function(color) {
-    fill(color);
+    //fill(color);
 
     // Change color if spot is a wall
-    if (this.wall)
+    if (this.wall) {
       fill(0);
-
-    noStroke();
-    rect(this.i * w, this.j * h, w, h);
+      noStroke();
+      ellipse(this.i * w + w / 2, this.j * h + h / 2, w / 2, h / 2);
+    }
   }
 
   this.addNeighbors = function(grid) {
@@ -192,7 +192,7 @@ function draw() {
     return;
   }
 
-  background(0);
+  background(255);
 
   // Draw spots
   for (var i = 0; i < cols; i++) {
@@ -201,15 +201,15 @@ function draw() {
     }
   }
 
-  // Draw the closed set
-  for (var i = 0; i < closedSet.length; i++) {
-    closedSet[i].show(color(255, 0, 0));
-  }
-
-  // Draw the open set
-  for (var i = 0; i < openSet.length; i++) {
-    openSet[i].show(color(0, 255, 0));
-  }
+  // // Draw the closed set
+  // for (var i = 0; i < closedSet.length; i++) {
+  //   closedSet[i].show(color(255, 0, 0));
+  // }
+  //
+  // // Draw the open set
+  // for (var i = 0; i < openSet.length; i++) {
+  //   openSet[i].show(color(0, 255, 0));
+  // }
 
   // Find the path via tracing backwards from the current spot
   path = [];
@@ -220,14 +220,15 @@ function draw() {
     temp = temp.previous;
   }
 
-  // Draw the current optimal path
-  for (var i = 0; i < path.length; i++) {
-    path[i].show(color(0, 0, 255));
-  }
+  // // Draw the current optimal path
+  // for (var i = 0; i < path.length; i++) {
+  //   path[i].show(color(0, 0, 255));
+  // }
 
   // Draw path as line
   noFill();
-  stroke(255);
+  stroke(200, 0, 255);
+  strokeWeight(w / 2);
   beginShape();
   // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
