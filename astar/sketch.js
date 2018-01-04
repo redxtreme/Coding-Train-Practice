@@ -1,5 +1,5 @@
-var cols = 25;
-var rows = 25;
+var cols = 50;
+var rows = 50;
 var grid = new Array(cols);
 
 var openSet = [];
@@ -127,6 +127,7 @@ function draw() {
   if (openSet.length > 0) {
 
     // Find the best spot in the openSet
+    // TODO tree datastructure would be better
     var winner = 0;
     for (var i = 0; i < openSet.length; i++) {
       if (openSet[i].f < openSet[winner].f) {
