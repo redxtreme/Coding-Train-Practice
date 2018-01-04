@@ -1,5 +1,5 @@
-var cols = 5;
-var rows = 5;
+var cols = 25;
+var rows = 25;
 var grid = new Array(cols);
 
 var openSet = [];
@@ -7,6 +7,7 @@ var closedSet = [];
 var start;
 var end;
 var w, h;
+var path = [];
 
 // Find an element and erase it from the given array
 function removeFromArray(arr, elt) {
@@ -22,7 +23,12 @@ function removeFromArray(arr, elt) {
 
 // Find the raw distance between two points
 function heuristic(a, b) {
-  var d = dist(a.i, a.j, b.i, b.j); // dist is part of p5
+
+  // Euclitian distance
+  var d = dist(a.i, a.j, b.i, b.j);
+
+  // Manhattin distance
+  //var d = abs(a.i - b.i) + (a.j - b.j); // dist is part of p5
   return d;
 }
 
@@ -34,6 +40,8 @@ function Spot(i, j) {
   this.g = 0;
   this.h = 0;
   this.neighbors = [];
+  this.previous = undefined;
+
   // Draws the spot
   this.show = function(color) {
     fill(color);
@@ -90,9 +98,6 @@ function setup() {
 
   // Initiate the starting point
   openSet.push(start);
-
-
-  console.log(grid);
 }
 
 // Animation loop
@@ -112,6 +117,10 @@ function draw() {
 
     // If we reached the end
     if (current === end) {
+
+      // Stop the looping
+      noLoop();
+
       console.log('DONE!');
     }
 
@@ -145,6 +154,8 @@ function draw() {
         // Calculate the score for the neighbor
         neighbor.f = neighbor.g + neighbor.h;
 
+        // Set the parent node
+        neighbor.previous = current
       }
     }
 
@@ -169,5 +180,18 @@ function draw() {
 
   for (var i = 0; i < openSet.length; i++) {
     openSet[i].show(color(0, 255, 0));
+  }
+
+  // Find the path via tracing backwards from the current spot
+  path = [];
+  var temp = current;
+  path.push(temp);
+  while (temp.previous) {
+    path.push(temp.previous);
+    temp = temp.previous;
+  }
+
+  for (var i = 0; i < path.length; i++) {
+    path[i].show(color(0, 0, 255));
   }
 }
