@@ -192,7 +192,7 @@ function draw() {
     return;
   }
 
-  background(255);
+  background(200);
 
   // Draw spots
   for (var i = 0; i < cols; i++) {
