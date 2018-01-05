@@ -27,7 +27,7 @@ function setup() {
 }
 
 // Animation loop
-function mousePressed() {
+function draw() {
   background(51);
 
   // Create a two dimentional Array
@@ -61,6 +61,15 @@ function Cell(i, j) {
   this.j = j;
   this.walls = [true, true, true, true] // top, right, bottom, left
   this.visited = false;
+
+  // Highlights the cell (used when visited)
+  this.highlight = function() {
+    var x = this.i*w;
+    var y = this.j*w;
+    noStroke();
+    fill(150, 0, 150, 100);
+    rect(x, y, w, w);
+  }
 
   // Check the neighbors
   this.checkNeighbors = function() {
@@ -117,9 +126,7 @@ function Cell(i, j) {
 
     // Color if visited
     if (this.visited) {
-      noStroke();
-      fill(150, 0, 150);
-      rect(x, y, w, w);
+      this.highlight();
     }
   }
 }
