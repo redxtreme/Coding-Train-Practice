@@ -36,6 +36,7 @@ function draw() {
   }
 
   current.visited = true;
+  current.highlight();
   var next = current.checkNeighbors();
   if (next) {
     next.visited = true;
@@ -62,12 +63,12 @@ function Cell(i, j) {
   this.walls = [true, true, true, true] // top, right, bottom, left
   this.visited = false;
 
-  // Highlights the cell (used when visited)
+  // Highlights the cell (used to see where we are at currently)
   this.highlight = function() {
     var x = this.i*w;
     var y = this.j*w;
     noStroke();
-    fill(150, 0, 150, 100);
+    fill(200, 200, 255);
     rect(x, y, w, w);
   }
 
@@ -126,7 +127,9 @@ function Cell(i, j) {
 
     // Color if visited
     if (this.visited) {
-      this.highlight();
+      noStroke();
+      fill(200, 0, 200, 100);
+      rect(x, y, w, w);
     }
   }
 }
