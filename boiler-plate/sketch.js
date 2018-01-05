@@ -1,7 +1,12 @@
+var rows;
+var cols;
+var w;
+var h;
+
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
-  console.log('A*');
+  console.log('Project Started');
 
   // Drawing area
   w = width / cols;
