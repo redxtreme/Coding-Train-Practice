@@ -25,10 +25,10 @@ function removeFromArray(arr, elt) {
 function heuristic(a, b) {
 
   // Euclitian distance
-  //var d = dist(a.i, a.j, b.i, b.j);
+  var d = dist(a.i, a.j, b.i, b.j);
 
   // Manhattin distance
-  var d = abs(a.i - b.i) + abs(a.j - b.j); // dist is part of p5
+  //var d = abs(a.i - b.i) + abs(a.j - b.j); // dist is part of p5
   return d;
 }
 
@@ -48,14 +48,13 @@ function Spot(i, j) {
 
   // Draws the spot
   this.show = function(color) {
-    fill(color);
 
     // Change color if spot is a wall
-    if (this.wall)
+    if (this.wall) {
       fill(0);
-
-    noStroke();
-    rect(this.i * w, this.j * h, w - 1, h - 1);
+      noStroke();
+      ellipse(this.i * w + w / 2, this.j * h + h / 2, w / 2, h / 2);
+    }
   }
 
   this.addNeighbors = function(grid) {
@@ -154,7 +153,7 @@ function draw() {
 
       // If the neighbor is not in the closed set and not a wall
       if (!closedSet.includes(neighbor) && !neighbor.wall) {
-        var tempG = current.g + 1; //heuristic(neighbor, current);
+        var tempG = current.g + heuristic(neighbor, current);
 
         var newPath = false;
 
@@ -166,8 +165,7 @@ function draw() {
             neighbor.g = tempG;
             newPath = true;
           }
-        }
-        else { // Wasn't in the openSet
+        } else { // Wasn't in the openSet
           neighbor.g = tempG;
           newPath = true;
           openSet.push(neighbor);
@@ -175,7 +173,7 @@ function draw() {
 
         // Only update if a newPath has been found
         if (newPath) {
-          
+
           // Guess how long it will take using heuristics
           neighbor.h = heuristic(neighbor, end);
 
@@ -193,23 +191,13 @@ function draw() {
     return;
   }
 
-  background(0);
+  background(200);
 
   // Draw spots
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
       grid[i][j].show(color(255));
     }
-  }
-
-  // Draw the closed set
-  for (var i = 0; i < closedSet.length; i++) {
-    closedSet[i].show(color(255, 0, 0));
-  }
-
-  // Draw the open set
-  for (var i = 0; i < openSet.length; i++) {
-    openSet[i].show(color(0, 255, 0));
   }
 
   // Find the path via tracing backwards from the current spot
@@ -221,9 +209,15 @@ function draw() {
     temp = temp.previous;
   }
 
+  // Draw path as line
+  noFill();
+  stroke(200, 0, 255);
+  strokeWeight(w / 2);
+  beginShape();
 
   // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
-    path[i].show(color(0, 0, 255));
+    vertex(path[i].i * w + w / 2, path[i].j * h + h / 2);
   }
+  endShape();
 }
