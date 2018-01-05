@@ -9,8 +9,8 @@ function setup() {
   console.log('A*');
 
   // Drawing area
-  cols = floor(width/w);
-  rows = floor(height/w);
+  cols = floor(width / w);
+  rows = floor(height / w);
 
   // Create a two dimentional Array
   for (var i = 0; i < cols; i++) {
@@ -31,14 +31,32 @@ function draw() {
   }
 }
 
+// Cell constructor
 function Cell(i, j) {
   this.i = i;
   this.j = j;
   this.show = function() {
-    var x = this.i*w;
-    var y = this.j*w;
+    var x = this.i * w;
+    var y = this.j * w;
     stroke(255);
-    noFill();
-    rect(x,y,w,w);
+
+    // Corners
+    var topLeftX = x;
+    var topLeftY = y;
+    var topRightX = x + w;
+    var topRightY = y;
+    var bottomLeftX = x;
+    var bottomLeftY = y + w;
+    var bottomRightX = x + w;
+    var bottomRightY = y + w;
+
+    // Draw cell walls
+    line(topLeftX, topLeftY, topRightX, topRightY); // top wall
+    line(topLeftX, topLeftY, bottomLeftX, bottomLeftY); // left wall
+    line(topRightX, topRightY, bottomRightX, bottomRightY); // right wall
+    line(bottomLeftX, bottomLeftY, bottomRightX, bottomRightY); // bottom wall
+
+    // noFill();
+    // rect(x,y,w,w);
   }
 }
