@@ -35,6 +35,8 @@ function draw() {
 function Cell(i, j) {
   this.i = i;
   this.j = j;
+  this.walls = [true, true, true, true] // top, right, bottom, left
+
   this.show = function() {
     var x = this.i * w;
     var y = this.j * w;
@@ -51,10 +53,14 @@ function Cell(i, j) {
     var bottomRightY = y + w;
 
     // Draw cell walls
-    line(topLeftX, topLeftY, topRightX, topRightY); // top wall
-    line(topLeftX, topLeftY, bottomLeftX, bottomLeftY); // left wall
-    line(topRightX, topRightY, bottomRightX, bottomRightY); // right wall
-    line(bottomLeftX, bottomLeftY, bottomRightX, bottomRightY); // bottom wall
+    if (this.walls[0])
+      line(topLeftX, topLeftY, topRightX, topRightY); // top wall
+    if (this.walls[3])
+      line(topLeftX, topLeftY, bottomLeftX, bottomLeftY); // left wall
+    if (this.walls[1])
+      line(topRightX, topRightY, bottomRightX, bottomRightY); // right wall
+    if (this.walls[2])
+      line(bottomLeftX, bottomLeftY, bottomRightX, bottomRightY); // bottom wall
 
     // noFill();
     // rect(x,y,w,w);
