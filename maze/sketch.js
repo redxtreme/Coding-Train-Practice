@@ -1,6 +1,6 @@
 var cols;
 var rows;
-var w = 40;
+var w = 10;
 var grid = [];
 var current;
 
@@ -8,7 +8,7 @@ var current;
 function setup() {
   createCanvas(400, 400);
   console.log('A*');
-  frameRate(5);
+  //frameRate(5);
 
   // Drawing area
   cols = floor(width / w);
@@ -68,7 +68,7 @@ function Cell(i, j) {
     var x = this.i*w;
     var y = this.j*w;
     noStroke();
-    fill(200, 200, 255);
+    fill(100, 255, 100);
     rect(x, y, w, w);
   }
 
