@@ -2,23 +2,28 @@ var cols;
 var rows;
 var w = 40;
 var grid = [];
+var current;
 
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
   console.log('A*');
+  frameRate(5);
 
   // Drawing area
   cols = floor(width / w);
   rows = floor(height / w);
 
-  // Create a two dimentional Array
-  for (var i = 0; i < cols; i++) {
-    for (var j = 0; j < rows; j++) {
+  // Insert cells into array
+  for (var j = 0; j < rows; j++) {
+    for (var i = 0; i < cols; i++) {
       var cell = new Cell(i, j);
       grid.push(cell);
     }
   }
+
+  // Starting point
+  current = grid[0];
 }
 
 // Animation loop
@@ -29,6 +34,23 @@ function draw() {
   for (var i = 0; i < grid.length; i++) {
     grid[i].show();
   }
+
+  current.visited = true;
+  var next = current.checkNeighbors();
+  if (next) {
+    next.visited = true;
+    current = next;
+  }
+}
+
+// Calculate the index of the one dimentional array
+function index(i, j) {
+
+  // If the index is out of founds (edge cases)
+  if (i < 0 || j < 0 || i > cols - 1 || j > rows - 1)
+    return -1;
+
+  return i + j * cols;
 }
 
 // Cell constructor
@@ -36,7 +58,37 @@ function Cell(i, j) {
   this.i = i;
   this.j = j;
   this.walls = [true, true, true, true] // top, right, bottom, left
+  this.visited = false;
 
+  // Check the neighbors
+  this.checkNeighbors = function() {
+    var neighbors = [];
+
+    var top = grid[index(i, j - 1)];
+    var left = grid[index(i - 1, j)];
+    var right = grid[index(i + 1, j)];
+    var bottom = grid[index(i, j + 1)];
+
+    // If edge exists and is not visited
+    if (top && !top.visited)
+      neighbors.push(top);
+    if (left && !left.visited)
+      neighbors.push(left);
+    if (right && !right.visited)
+      neighbors.push(right);
+    if (bottom && !bottom.visited)
+      neighbors.push(bottom);
+
+    // Pick a random neighbor
+    if (neighbors.length > 0) {
+      var r = floor(random(0, neighbors.length));
+      return neighbors[r];
+    }
+    else
+      return undefined;
+  }
+
+  // Draw the cell
   this.show = function() {
     var x = this.i * w;
     var y = this.j * w;
@@ -62,7 +114,10 @@ function Cell(i, j) {
     if (this.walls[2])
       line(bottomLeftX, bottomLeftY, bottomRightX, bottomRightY); // bottom wall
 
-    // noFill();
-    // rect(x,y,w,w);
+    // Color if visited
+    if (this.visited) {
+      fill(150, 0, 150);
+      rect(x, y, w, w);
+    }
   }
 }
