@@ -7,8 +7,8 @@ function Cell(i, j) {
 
   // Highlights the cell (used to see where we are at currently)
   this.highlight = function() {
-    var x = this.i*w;
-    var y = this.j*w;
+    var x = this.i * w;
+    var y = this.j * w;
     noStroke();
     fill(100, 255, 100);
     rect(x, y, w, w);

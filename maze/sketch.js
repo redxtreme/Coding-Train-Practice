@@ -8,7 +8,7 @@ var stack = [];
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
-  console.log('A*');
+  console.log('Maze');
   //frameRate(5);
 
   // Drawing area
