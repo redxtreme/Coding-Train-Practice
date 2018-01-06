@@ -38,10 +38,15 @@ function draw() {
 
   current.visited = true;
   current.highlight();
+  var old = current;
   var next = current.checkNeighbors();
   if (next) {
     next.visited = true;
-    stack.push(current);
+
+    // If the previous node as has neighbors
+    if (old.checkNeighbors())
+      stack.push(old);
+
     removeWalls(current, next);
     current = next;
   } else if (stack.length > 0) {
