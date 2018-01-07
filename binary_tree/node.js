@@ -33,14 +33,12 @@ Node.prototype.visit = function() {
 }
 
 Node.prototype.search = function(val) {
-  if (this.value === val) {
-    console.log('Found ' + val);
-    return this;
-  }
+  if (this.value === val)
+    return val;
   else if (val < this.value && this.left !== null)
-    this.left.search(val);
+    return this.left.search(val);
   else if (val > this.value && this.right !== null)
-    this.right.search(val);
+    return this.right.search(val);
 
   //return null;
 }
