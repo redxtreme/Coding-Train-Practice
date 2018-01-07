@@ -1,7 +1,7 @@
 var cities = [];
 var totalCities = 10;
 var recordDistance;
-
+var bestEver;
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
@@ -15,6 +15,7 @@ function setup() {
 
   var d = calcDistance(cities);
   recordDistance = d;
+  bestEver = cities.slice();
 }
 
 // Animation loop
@@ -27,13 +28,23 @@ function draw() {
     ellipse(cities[i].x, cities[i].y, 8, 8);
   }
 
+  // Draw the paths
   beginShape();
   noFill();
-  strokeWeight(2);
+  strokeWeight(1);
   stroke(255);
-  // Draw the paths
   for (var i = 0; i < cities.length; i++) {
     vertex(cities[i].x, cities[i].y);
+  }
+  endShape();
+
+  // Draw the best path
+  beginShape();
+  noFill();
+  strokeWeight(4);
+  stroke(255, 0, 255);
+  for (var i = 0; i < bestEver.length; i++) {
+    vertex(bestEver[i].x, bestEver[i].y);
   }
   endShape();
 
@@ -46,7 +57,7 @@ function draw() {
   var d = calcDistance(cities);
   if (d < recordDistance) {
     recordDistance = d;
-    console.log(recordDistance);
+    bestEver = cities.slice();
   }
 }
 
