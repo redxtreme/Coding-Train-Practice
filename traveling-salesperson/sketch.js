@@ -64,5 +64,5 @@ function calcDistance(points) {
     var d = dist(points[i].x, points[i].y, points[i + 1].x, points[i + 1].x);
     sum += d;
   }
-  return d;
+  return sum;
 }
