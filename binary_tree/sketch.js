@@ -2,7 +2,8 @@ var tree;
 
 // Setup function required by p5
 function setup() {
-  noCanvas();
+  createCanvas(600, 400);
+  background(51);
   tree = new Tree();
 
   // Insert random numbers
