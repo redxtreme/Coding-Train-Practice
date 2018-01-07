@@ -34,13 +34,13 @@ Node.prototype.visit = function() {
 
 Node.prototype.search = function(val) {
   if (this.value === val)
-    return val;
+    return this;
   else if (val < this.value && this.left !== null)
     return this.left.search(val);
   else if (val > this.value && this.right !== null)
     return this.right.search(val);
 
-  //return null;
+  return null;
 }
 
 function Node(val) {
