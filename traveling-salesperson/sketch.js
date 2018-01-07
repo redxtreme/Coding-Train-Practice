@@ -1,13 +1,22 @@
 var cities = [];
+var totalCities = 3;
 
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
   console.log('Project Started');
 
+  for (var i = 0; i < totalCities; i++) {
+    var v = createVector(random(width), random(height));
+    cities[i] = v;
+  }
 }
 
 // Animation loop
 function draw() {
   background(51);
+  fill(255);
+  for (var i = 0; i < cities.length; i++) {
+    ellipse(cities[i].x, cities[i].y, 4, 4);
+  }
 }
