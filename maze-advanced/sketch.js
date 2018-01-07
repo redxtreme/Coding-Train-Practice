@@ -1,15 +1,18 @@
 var cols;
 var rows;
-var w = 10;
+var w = 20;
+var h = w;
 var grid = [];
 var current;
 var stack = [];
+var solveTheMaze = false;
+var setupSolve = false;
 
 // Setup function required by p5
 function setup() {
   createCanvas(400, 400);
   console.log('Maze');
-  //frameRate(5);
+  // frameRate(5);
 
   // Drawing area
   cols = floor(width / w);
@@ -38,16 +41,30 @@ function draw() {
 
   current.visited = true;
   current.highlight();
+  var old = current;
   var next = current.checkNeighbors();
   if (next) {
     next.visited = true;
-    stack.push(current);
+
+    // If the previous node as has neighbors
+    if (old.checkNeighbors())
+      stack.push(old);
 
     removeWalls(current, next);
     current = next;
   } else if (stack.length > 0) {
     current = stack.pop();
+  } else {
+    console.log('Maze created!');
+    // solveTheMaze = true;
+    // setupSolve = true;
   }
+
+  // if (setupSolve)
+  //   solveSetup();
+
+  // if (solveTheMaze)
+  //   drawAstar();
 }
 
 // Calculate the index of the one dimentional array
