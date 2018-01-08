@@ -24,6 +24,7 @@ function setup() {
 
   totalPermutations = factorial(totalCities);
   console.log(totalPermutations);
+  count++;
 }
 
 // Animation loop
