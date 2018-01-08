@@ -1,8 +1,11 @@
 var cities = [];
-var totalCities = 10;
+var totalCities = 5;
 var order = [];
 var recordDistance;
 var bestEver;
+var totalPermutations;
+var count = 0;
+
 // Setup function required by p5
 function setup() {
   createCanvas(400, 600);
@@ -18,6 +21,9 @@ function setup() {
   var d = calcDistance(cities);
   recordDistance = d;
   bestEver = order.slice();
+
+  totalPermutations = factorial(totalCities);
+  console.log(totalPermutations);
 }
 
 // Animation loop
@@ -61,13 +67,21 @@ function draw() {
     bestEver = order.slice();
   }
 
+  // Print out the city order
   textSize(64);
   var s = '';
   for (var i = 0; i < order.length; i++) {
     s += order[i];
   }
   fill(255);
-  text(s, 20, height - 50);
+  text(s, 20, height - 90);
+
+  // Print out the percentage complete
+  textSize(30);
+  fill(255);
+  var percent = 100 * (count / totalPermutations);
+  text(nf(percent, 0, 2) + '% complete', 20, height - 50);
+
   nextOrder();
 }
 
@@ -95,6 +109,7 @@ function calcDistance(points) {
 
 // Lexicographic order
 function nextOrder() {
+
   // STEP 1 of the algorithm
   // https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
   var largestI = -1;
@@ -122,4 +137,14 @@ function nextOrder() {
   var endArray = order.splice(largestI + 1);
   endArray.reverse();
   order = order.concat(endArray);
+
+  count++;
+}
+
+function factorial(n) {
+  if (n == 1)
+    return 1;
+  else {
+    return n * factorial(n - 1);
+  }
 }
