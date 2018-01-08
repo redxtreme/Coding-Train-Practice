@@ -1,5 +1,5 @@
 var cities = [];
-var totalCities = 5;
+var totalCities = 10;
 var order = [];
 var recordDistance;
 var bestEver;
@@ -10,64 +10,55 @@ function setup() {
 
   // Create cities
   for (var i = 0; i < totalCities; i++) {
-    var v = createVector(random(width), random(height)/2);
+    var v = createVector(random(width), random(height) / 2);
     cities[i] = v;
     order[i] = i;
   }
 
   var d = calcDistance(cities);
   recordDistance = d;
-  bestEver = cities.slice();
-
-  textSize(64);
-  var s = '';
-  for (var i = 0; i < order.length; i++) {
-    s += order[i];
-  }
-  fill(255);
-  text(s, 20, height - 50);
+  bestEver = order.slice();
 }
 
 // Animation loop
 function draw() {
   background(51);
   fill(255);
+  //frameRate(5);
 
   // Draw the cities
   for (var i = 0; i < cities.length; i++) {
     ellipse(cities[i].x, cities[i].y, 8, 8);
   }
 
-  // Draw the paths
-  beginShape();
-  noFill();
-  strokeWeight(1);
-  stroke(255);
-  for (var i = 0; i < cities.length; i++) {
-    vertex(cities[i].x, cities[i].y);
-  }
-  endShape();
-
   // Draw the best path
   beginShape();
   noFill();
   strokeWeight(4);
   stroke(255, 0, 255);
-  for (var i = 0; i < bestEver.length; i++) {
-    vertex(bestEver[i].x, bestEver[i].y);
+  for (var i = 0; i < order.length; i++) {
+    var cityN = bestEver[i];
+    vertex(cities[cityN].x, cities[cityN].y);
   }
   endShape();
 
-  // Swap two elements in the cities array
-  var i = floor(random(cities.length));
-  var j = floor(random(cities.length));
-  swap(cities, i, j);
+  // Draw the paths
+  //translate(0, height / 2);
+  beginShape();
+  noFill();
+  strokeWeight(1);
+  stroke(255);
+  for (var i = 0; i < order.length; i++) {
+    var cityN = order[i];
+    vertex(cities[cityN].x, cities[cityN].y);
+  }
+  endShape();
 
   // If we have a better total distance
   var d = calcDistance(cities);
   if (d < recordDistance) {
     recordDistance = d;
-    bestEver = cities.slice();
+    bestEver = order.slice();
   }
 
   textSize(64);
@@ -91,7 +82,12 @@ function swap(a, i, j) {
 function calcDistance(points) {
   var sum = 0;
   for (var i = 0; i < points.length - 1; i++) {
-    var d = dist(points[i].x, points[i].y, points[i + 1].x, points[i + 1].x);
+    var cityAIndex = order[i];
+    var cityA = points[cityAIndex];
+    var cityBIndex = order[i + 1];
+    var cityB = points[cityBIndex];
+
+    var d = dist(cityA.x, cityA.y, cityB.x, cityB.y);
     sum += d;
   }
   return sum;
