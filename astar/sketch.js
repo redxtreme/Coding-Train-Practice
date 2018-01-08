@@ -8,6 +8,7 @@ var start;
 var end;
 var w, h;
 var path = [];
+var backgroundColor = 255;
 
 // Find an element and erase it from the given array
 function removeFromArray(arr, elt) {
@@ -53,6 +54,13 @@ function Spot(i, j) {
     if (this.wall) {
       fill(0);
       noStroke();
+      ellipse(this.i * w + w / 2, this.j * h + h / 2, w / 2, h / 2);
+    }
+    else {
+      noStroke();
+      strokeWeight(w / 3);
+      fill(color);
+      stroke(color);
       ellipse(this.i * w + w / 2, this.j * h + h / 2, w / 2, h / 2);
     }
   }
@@ -191,12 +199,12 @@ function draw() {
     return;
   }
 
-  background(200);
+  background(backgroundColor);
 
   // Draw spots
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
-      grid[i][j].show(color(255));
+      grid[i][j].show(color(backgroundColor));
     }
   }
 
@@ -209,12 +217,21 @@ function draw() {
     temp = temp.previous;
   }
 
-  // Draw path as line
-  noFill();
-  stroke(200, 0, 255);
-  strokeWeight(w / 2);
-  beginShape();
+  // Draw openSet
+  for (var i = 0; i < openSet.length; i++) {
+      openSet[i].show(color(255, 0, 0, 50));
+  }
 
+  // Draw closedSet
+  for (var i = 0; i < closedSet.length; i++) {
+      closedSet[i].show(color(100, 255, 100, 150));
+  }
+
+  // Draw path as line
+  beginShape();
+  noFill();
+  stroke(100, 100, 255);
+  strokeWeight(w / 2);
   // Draw the current optimal path
   for (var i = 0; i < path.length; i++) {
     vertex(path[i].i * w + w / 2, path[i].j * h + h / 2);
