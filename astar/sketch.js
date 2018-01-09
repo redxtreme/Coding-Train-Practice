@@ -43,6 +43,8 @@ function Spot(i, j) {
   this.neighbors = [];
   this.previous = undefined;
   this.wall = false;
+  this.isStart = false;
+  this.isEnd = false;
 
   if (random(1) < 0.3)
     this.wall = true;
@@ -122,7 +124,9 @@ function setup() {
   start = grid[0][0];
   end = grid[cols - 1][rows - 1];
   start.wall = false;
+  start.isStart = true;
   end.wall = false;
+  end.isEnd = true;
 
   // Initiate the starting point
   openSet.push(start);
@@ -204,7 +208,8 @@ function draw() {
   // Draw spots
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
-      grid[i][j].show(color(backgroundColor));
+      var c = (grid[i][j].isStart || grid[i][j].isEnd) ? color(255, 0, 2555) : color(backgroundColor);
+      grid[i][j].show(c);
     }
   }
 
