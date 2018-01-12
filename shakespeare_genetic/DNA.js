@@ -43,15 +43,18 @@ function DNA(num) {
         }
      }
      this.fitness = score / target.length;
+
+     // Make the fitness equation exponential
+     this.fitness = pow(this.fitness, 4);
   }
 
   // Crossover
   this.crossover = function(partner) {
     // A new child
     var child = new DNA(this.genes.length);
-    
+
     var midpoint = floor(random(this.genes.length)); // Pick a midpoint
-    
+
     // Half from one, half from the other
     for (var i = 0; i < this.genes.length; i++) {
       if (i > midpoint) child.genes[i] = this.genes[i];
