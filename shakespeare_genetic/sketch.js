@@ -61,8 +61,6 @@ function setup() {
 }
 
 function draw() {
-  // Generate mating pool
-  population.naturalSelection();
   //Create next generation
   population.generate();
   // Calculate fitness

@@ -3,5 +3,5 @@
 ## Test Locally
 To test locally, navigate to directory in terminal and type `python -m http.server`
 
-## Demo
-This code was a pre-made demo
+## Algorithm
+This uses an Accept-Reject algorithm, which is a Monte Carlo method, for pool selection.
