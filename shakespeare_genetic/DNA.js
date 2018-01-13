@@ -45,7 +45,7 @@ function DNA(num) {
      this.fitness = score / target.length;
 
      // Make the fitness equation exponential
-     this.fitness = pow(this.fitness, 4);
+     this.fitness = pow(this.fitness, 2) + 0.01; // 0.01 added so nothing is ever 0
   }
 
   // Crossover
