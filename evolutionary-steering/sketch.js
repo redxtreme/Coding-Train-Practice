@@ -1,37 +1,27 @@
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
-
-// Demonstration of Craig Reynolds' "Flocking" behavior
-// See: http://www.red3d.com/cwr/
-// Rules: Cohesion, Separation, Alignment
-
-// Click mouse to add boids into the system
-
-var flock;
-
-var text;
+var vehicle
+var food = [];
 
 function setup() {
-  text = createP("Drag the mouse to generate new boids.");
-  text.position(10,365);
-
-  createCanvas(640,360);
-  flock = new Flock();
-  // Add an initial set of boids into the system
-  for (var i = 0; i < 60; i++) {
-    var b = new Boid(width/2,height/2);
-    flock.addBoid(b);
+  createCanvas(640, 360);
+  vehicle = new Vehicle(width / 2, height / 2);
+  for (var i = 0; i < 10; i++) {
+    var x = random(width);
+    var y = random(height);
+    food.push(createVector(x, y));
   }
 }
 
 function draw() {
   background(51);
-  flock.run();
-}
 
-// Add a new boid into the System
-function mouseDragged() {
-  flock.addBoid(new Boid(mouseX,mouseY));
-}
+  var target = createVector(mouseX, mouseY);
 
+  fill(127);
+  stroke(200);
+  strokeWeight(2);
+  ellipse(target.x, target.y, 48, 48);
+
+  vehicle.seek(target);
+  vehicle.update();
+  vehicle.display();
+}
