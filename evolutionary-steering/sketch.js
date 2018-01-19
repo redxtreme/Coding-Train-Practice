@@ -22,12 +22,13 @@ function draw() {
   ellipse(target.x, target.y, 48, 48);
 
   for (var i = 0; i < food.length; i++) {
-    fill(0, 255, 0);
+    fill(255, 0, 255);
     noStroke();
     ellipse(food[i].x, food[i].y, 8, 8);
   }
-  
-  vehicle.seek(target);
+
+  //vehicle.seek(target);
+  vehicle.eat(food);
   vehicle.update();
   vehicle.display();
 }

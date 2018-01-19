@@ -52,6 +52,21 @@ function Vehicle(x, y) {
     this.acceleration.add(force);
   };
 
+  this.eat = function(list) {
+    var record = Infinity;
+    var closest = -1;
+
+    for (var i=0; i < list.length; i++) {
+        var d = this.position.dist(food[i]);
+        if (d < record) {
+          record = d;
+          closest = i;
+        }
+    }
+
+    this.seek(list[closest]);
+  }
+
   // We accumulate a new acceleration each time based on three rules
   this.flock = function(boids) {
     var sep = this.separate(boids); // Separation
