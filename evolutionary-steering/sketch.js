@@ -14,12 +14,12 @@ function setup() {
 function draw() {
   background(51);
 
-  var target = createVector(mouseX, mouseY);
+  // var target = createVector(mouseX, mouseY);
 
-  fill(127);
-  stroke(200);
-  strokeWeight(2);
-  ellipse(target.x, target.y, 48, 48);
+  // fill(127);
+  // stroke(200);
+  // strokeWeight(2);
+  // ellipse(target.x, target.y, 48, 48);
 
   for (var i = 0; i < food.length; i++) {
     fill(255, 0, 255);
