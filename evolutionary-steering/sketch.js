@@ -21,6 +21,12 @@ function draw() {
   strokeWeight(2);
   ellipse(target.x, target.y, 48, 48);
 
+  for (var i = 0; i < food.length; i++) {
+    fill(0, 255, 0);
+    noStroke();
+    ellipse(food[i].x, food[i].y, 8, 8);
+  }
+  
   vehicle.seek(target);
   vehicle.update();
   vehicle.display();

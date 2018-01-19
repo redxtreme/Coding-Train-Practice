@@ -20,6 +20,33 @@ function Vehicle(x, y) {
     this.render();
   };
 
+  this.display = function() {
+    //background(255,0,0);
+    var theta = this.velocity.heading() + PI / 2;
+    fill(200, 100);
+    stroke(0);
+    strokeWeight(1);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(theta);
+
+    // Thrusters
+    rectMode(CENTER);
+    fill(0);
+    rect(-this.r / 2, this.r * 2, this.r / 2, this.r);
+    rect(this.r / 2, this.r * 2, this.r / 2, this.r);
+
+    // Rocket body
+    fill(175);
+    beginShape(TRIANGLES);
+    vertex(0, -this.r * 2);
+    vertex(-this.r, this.r * 2);
+    vertex(this.r, this.r * 2);
+    endShape();
+
+    pop();
+  }
+
   this.applyForce = function(force) {
     // We could add mass here if we want A = F / M
     this.acceleration.add(force);
