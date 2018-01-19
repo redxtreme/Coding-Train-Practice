@@ -82,13 +82,16 @@ function Vehicle(x, y) {
   // STEER = DESIRED MINUS VELOCITY
   this.seek = function(target) {
     var desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
+
     // Normalize desired and scale to maximum speed
     desired.normalize();
     desired.mult(this.maxspeed);
+
     // Steering = Desired minus Velocity
     var steer = p5.Vector.sub(desired, this.velocity);
     steer.limit(this.maxforce); // Limit to maximum steering force
-    return steer;
+
+    this.applyForce(steer);
   };
 
   this.render = function() {
