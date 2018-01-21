@@ -1,6 +1,7 @@
 var vehicles = [];
 var food = [];
 var poison = [];
+var debug;
 
 function setup() {
   createCanvas(640, 360);
@@ -25,6 +26,9 @@ function setup() {
     var y = random(height);
     poison.push(createVector(x, y));
   }
+
+  // Add debug checkbox
+  debug = createCheckbox();
 }
 
 function mouseDragged() {
@@ -62,7 +66,7 @@ function draw() {
     ellipse(poison[i].x, poison[i].y, 4, 4);
   }
 
-  for (var i = vehicles.length - 1; i >=0; i--) {
+  for (var i = vehicles.length - 1; i >= 0; i--) {
     vehicles[i].boundaries();
     vehicles[i].behaviors(food, poison);
     vehicles[i].update();

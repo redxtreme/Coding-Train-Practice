@@ -26,8 +26,7 @@ function Vehicle(x, y, dna) {
     this.dna[2] = random(0, 100);
     // Poison perception
     this.dna[3] = random(0, 100);
-  }
-  else {
+  } else {
 
     // Mutation
     this.dna[0] = dna[0];
@@ -65,21 +64,22 @@ function Vehicle(x, y, dna) {
     translate(this.position.x, this.position.y);
     rotate(theta);
 
-    // Draw weight vectors
-    strokeWeight(3);
-    noFill();
-    stroke(0, 255, 0);
-    line(0, 0, 0, -this.dna[0] * 20);
-    ellipse(0, 0, this.dna[2] * 2);
-    strokeWeight(2);
-    stroke(255, 0, 0);
-    line(0, 0, 0, -this.dna[1] * 20);
-    ellipse(0, 0, this.dna[3] * 2);
+    if (debug.checked()) {
+      // Draw weight vectors
+      strokeWeight(3);
+      noFill();
+      stroke(0, 255, 0);
+      line(0, 0, 0, -this.dna[0] * 20);
+      ellipse(0, 0, this.dna[2] * 2);
+      strokeWeight(2);
+      stroke(255, 0, 0);
+      line(0, 0, 0, -this.dna[1] * 20);
+      ellipse(0, 0, this.dna[3] * 2);
 
-    fill(200, 100);
-    stroke(0);
-    strokeWeight(1);
-
+      fill(200, 100);
+      stroke(0);
+      strokeWeight(1);
+    }
     // Thrusters
     rectMode(CENTER);
     fill(0);
