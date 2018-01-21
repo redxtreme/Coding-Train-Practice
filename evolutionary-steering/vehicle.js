@@ -4,27 +4,48 @@
 
 // Boid class
 // Methods for Separation, Cohesion, Alignment added
+var mr = 0.01 // Mutation rate
 
-function Vehicle(x, y) {
+function Vehicle(x, y, dna) {
   this.acceleration = createVector(0, 0);
   this.velocity = createVector(0, -2);
   this.position = createVector(x, y);
   this.r = 4.0;
   this.maxspeed = 5; // Maximum speed
   this.maxforce = 0.5; // Maximum steering force
-
   this.health = 1;
-
   this.dna = [];
 
-  // Food weight
-  this.dna[0] = random(-2, 2);
-  // Poison weight
-  this.dna[1] = random(-2, 2);
-  // Food perception
-  this.dna[2] = random(0, 100);
-  // Poison perception
-  this.dna[3] = random(0, 100);
+  if (typeof(dna) === 'undefined') {
+
+    // Food weight
+    this.dna[0] = random(-2, 2);
+    // Poison weight
+    this.dna[1] = random(-2, 2);
+    // Food perception
+    this.dna[2] = random(0, 100);
+    // Poison perception
+    this.dna[3] = random(0, 100);
+  }
+  else {
+
+    // Mutation
+    this.dna[0] = dna[0];
+    if (random(1) < mr)
+      this.dna[0] += random(-0.1, 0.1);
+
+    this.dna[1] = dna[1];
+    if (random(1) < mr)
+      this.dna[1] += random(-0.1, 0.1);
+
+    this.dna[2] = dna[2];
+    if (random(1) < mr)
+      this.dna[2] += random(-10, 10);
+
+    this.dna[3] = dna[3];
+    if (random(1) < mr)
+      this.dna[3] += random(-10, 10);
+  }
 
   this.run = function(boids) {
     this.flock(boids);
@@ -95,7 +116,14 @@ function Vehicle(x, y) {
 
     this.applyForce(steerG);
     this.applyForce(steerB);
-  }
+  };
+
+  // Reproduce
+  this.clone = function() {
+    if (random(1) < 0.005)
+      return new Vehicle(this.position.x, this.position.y, this.dna);
+    return null;
+  };
 
   this.eat = function(list, nutrition, perception) {
     var record = Infinity;
@@ -125,7 +153,7 @@ function Vehicle(x, y) {
 
     // Seek nothing
     return createVector(0, 0);
-  }
+  };
 
   // We accumulate a new acceleration each time based on three rules
   this.flock = function(boids) {

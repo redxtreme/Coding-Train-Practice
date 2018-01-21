@@ -6,7 +6,7 @@ function setup() {
   createCanvas(640, 360);
 
   // Populate vehicles
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 50; i++) {
     var x = random(width);
     var y = random(height);
     vehicles[i] = new Vehicle(x, y);
@@ -64,8 +64,17 @@ function draw() {
     vehicles[i].update();
     vehicles[i].display();
 
+    // Reproduce
+    var newVehicle = vehicles[i].clone();
+    if (newVehicle)
+      vehicles.push(newVehicle);
+
     // If health is 0, remove the vehicle
-    if (vehicles[i].dead())
+    if (vehicles[i].dead()) {
+      var x = vehicles[i].position.x;
+      var y = vehicles[i].position.y;
+      food.push(createVector(x, y));
       vehicles.splice(i, 1);
+    }
   }
 }
