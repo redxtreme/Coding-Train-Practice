@@ -9,9 +9,11 @@ function Vehicle(x, y) {
   this.acceleration = createVector(0, 0);
   this.velocity = createVector(0, -2);
   this.position = createVector(x, y);
-  this.r = 6.0;
+  this.r = 4.0;
   this.maxspeed = 5; // Maximum speed
   this.maxforce = 0.5; // Maximum steering force
+
+  this.health = 1;
 
   this.dna = [];
   this.dna[0] = random(-5, 5);
@@ -23,6 +25,10 @@ function Vehicle(x, y) {
     this.borders();
     this.render();
   };
+
+  this.dead = function() {
+    return (this.health < 0);
+  }
 
   this.display = function() {
     //background(255,0,0);
@@ -48,7 +54,11 @@ function Vehicle(x, y) {
     rect(this.r / 2, this.r * 2, this.r / 2, this.r);
 
     // Rocket body
-    fill(175);
+    var gr = color(0, 255, 0);
+    var rd = color(255, 0, 0);
+    var col = lerpColor(rd, gr, this.health); // Color in between red and green
+    fill(col);
+    stroke(col);
     beginShape(TRIANGLES);
     vertex(0, -this.r * 2);
     vertex(-this.r, this.r * 2);
@@ -65,8 +75,8 @@ function Vehicle(x, y) {
 
   // Apply weighted steering forces
   this.behaviors = function(good, bad) {
-    var steerG = this.eat(good) ;
-    var steerB = this.eat(bad);
+    var steerG = this.eat(good, 0.1) ;
+    var steerB = this.eat(bad, -0.5);
 
     steerG.mult(this.dna[0]);
     steerB.mult(this.dna[1]);
@@ -75,7 +85,7 @@ function Vehicle(x, y) {
     this.applyForce(steerB);
   }
 
-  this.eat = function(list) {
+  this.eat = function(list, nutrition) {
     var record = Infinity;
     var closest = -1;
 
@@ -87,11 +97,12 @@ function Vehicle(x, y) {
       }
     }
 
-    // Eat the closest food
+    // Eat the closest item
     if (record < 5) {
 
       // Eat 1 of the closest
       list.splice(closest, 1);
+      this.health += nutrition;
     } else if (closest > -1) {
 
       // Seek the closest
@@ -119,6 +130,9 @@ function Vehicle(x, y) {
 
   // Method to update location
   this.update = function() {
+
+    this.health -= 0.01;
+
     // Update velocity
     this.velocity.add(this.acceleration);
     // Limit speed
