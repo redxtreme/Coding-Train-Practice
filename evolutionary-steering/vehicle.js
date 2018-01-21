@@ -108,8 +108,8 @@ function Vehicle(x, y, dna) {
 
   // Apply weighted steering forces
   this.behaviors = function(good, bad) {
-    var steerG = this.eat(good, 0.2, this.dna[2]);
-    var steerB = this.eat(bad, -0.5, this.dna[3]);
+    var steerG = this.eat(good, 0.3, this.dna[2]);
+    var steerB = this.eat(bad, -0.75, this.dna[3]);
 
     steerG.mult(this.dna[0]);
     steerB.mult(this.dna[1]);

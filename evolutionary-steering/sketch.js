@@ -31,7 +31,7 @@ function draw() {
   background(51);
 
   // Add new food randomly
-  if (random(1) < 0.05) {
+  if (random(1) < 0.1) {
     var x = random(width);
     var y = random(height);
     food.push(createVector(x, y));
@@ -48,14 +48,14 @@ function draw() {
   for (var i = 0; i < food.length; i++) {
     fill(0, 255, 0);
     noStroke();
-    ellipse(food[i].x, food[i].y, 8, 8);
+    ellipse(food[i].x, food[i].y, 4, 4);
   }
 
   // Draw poison
   for (var i = 0; i < poison.length; i++) {
     fill(255, 0, 0);
     noStroke();
-    ellipse(poison[i].x, poison[i].y, 8, 8);
+    ellipse(poison[i].x, poison[i].y, 4, 4);
   }
 
   for (var i = vehicles.length - 1; i >=0; i--) {
