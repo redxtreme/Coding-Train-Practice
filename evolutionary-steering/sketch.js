@@ -27,6 +27,10 @@ function setup() {
   }
 }
 
+function mouseDragged() {
+  vehicles.push(new Vehicle(mouseX, mouseY));
+}
+
 function draw() {
   background(51);
 
