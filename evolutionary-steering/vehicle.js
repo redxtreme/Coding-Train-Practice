@@ -55,25 +55,25 @@ function Vehicle(x, y) {
   this.eat = function(list) {
     var record = Infinity;
     var closest = -1;
-    var target = null;
 
     for (var i = 0; i < list.length; i++) {
       var d = this.position.dist(list[i]);
       if (d < record) {
         record = d;
         closest = i;
-        target = list[closest];
       }
     }
-    
+
     // Eat the closest food
     if (record < 5) {
 
       // Eat 1 of the closest
       list.splice(closest, 1);
-    }
+    } else {
 
-    this.seek(target);
+      // Seek the closest
+      this.seek(list[closest]);
+    }
   }
 
   // We accumulate a new acceleration each time based on three rules
