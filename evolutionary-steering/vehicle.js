@@ -13,6 +13,10 @@ function Vehicle(x, y) {
   this.maxspeed = 5; // Maximum speed
   this.maxforce = 0.5; // Maximum steering force
 
+  this.dna = [];
+  this.dna[0] = random(-5, 5);
+  this.dna[1] = random(-5, 5);
+
   this.run = function(boids) {
     this.flock(boids);
     this.update();
@@ -23,12 +27,19 @@ function Vehicle(x, y) {
   this.display = function() {
     //background(255,0,0);
     var theta = this.velocity.heading() + PI / 2;
-    fill(200, 100);
-    stroke(0);
-    strokeWeight(1);
     push();
     translate(this.position.x, this.position.y);
     rotate(theta);
+
+    // Draw weight vectors
+    stroke(0, 255, 0);
+    line(0, 0, 0, -this.dna[0] * 20);
+    stroke(255, 0, 0);
+    line(0, 0, 0, -this.dna[1] * 20);
+
+    fill(200, 100);
+    stroke(0);
+    strokeWeight(1);
 
     // Thrusters
     rectMode(CENTER);
@@ -52,6 +63,18 @@ function Vehicle(x, y) {
     this.acceleration.add(force);
   };
 
+  // Apply weighted steering forces
+  this.behaviors = function(good, bad) {
+    var steerG = this.eat(good) ;
+    var steerB = this.eat(bad);
+
+    steerG.mult(this.dna[0]);
+    steerB.mult(this.dna[1]);
+
+    this.applyForce(steerG);
+    this.applyForce(steerB);
+  }
+
   this.eat = function(list) {
     var record = Infinity;
     var closest = -1;
@@ -72,8 +95,11 @@ function Vehicle(x, y) {
     } else if (closest > -1) {
 
       // Seek the closest
-      this.seek(list[closest]);
+      return this.seek(list[closest]);
     }
+
+    // Seek nothing
+    return createVector(0, 0);
   }
 
   // We accumulate a new acceleration each time based on three rules
@@ -116,7 +142,7 @@ function Vehicle(x, y) {
     var steer = p5.Vector.sub(desired, this.velocity);
     steer.limit(this.maxforce); // Limit to maximum steering force
 
-    this.applyForce(steer);
+    return steer;
   };
 
   this.render = function() {

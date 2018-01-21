@@ -46,8 +46,7 @@ function draw() {
   }
 
   //vehicle.seek(target);
-  vehicle.eat(food);
-  vehicle.eat(poison);
+  vehicle.behaviors(food, poison);
   vehicle.update();
   vehicle.display();
 }
