@@ -69,7 +69,7 @@ function Vehicle(x, y) {
 
       // Eat 1 of the closest
       list.splice(closest, 1);
-    } else {
+    } else if (closest > -1) {
 
       // Seek the closest
       this.seek(list[closest]);
