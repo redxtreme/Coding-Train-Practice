@@ -289,7 +289,7 @@ function Vehicle(x, y) {
     if (this.position.y < d)
       desired = createVector(this.velocity.x, this.maxspeed);
     else if (this.position.y > height - d)
-      desired = createVector(-this.velocity.x, this.maxspeed);
+      desired = createVector(this.velocity.x, -this.maxspeed);
 
     if (desired !== null) {
       desired.normalize();
