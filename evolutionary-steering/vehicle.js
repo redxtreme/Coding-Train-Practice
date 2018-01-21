@@ -87,7 +87,7 @@ function Vehicle(x, y) {
 
   // Apply weighted steering forces
   this.behaviors = function(good, bad) {
-    var steerG = this.eat(good, 0.2, this.dna[2]) ;
+    var steerG = this.eat(good, 0.2, this.dna[2]);
     var steerB = this.eat(bad, -0.5, this.dna[3]);
 
     steerG.mult(this.dna[0]);
@@ -99,27 +99,29 @@ function Vehicle(x, y) {
 
   this.eat = function(list, nutrition, perception) {
     var record = Infinity;
-    var closest = -1;
+    var closest = null;
 
-    for (var i = 0; i < list.length; i++) {
+    for (var i = list.length - 1; i > 0; i--) {
       var d = this.position.dist(list[i]);
-      if (d < record && d < perception) {
-        record = d;
-        closest = i;
+
+      // Eat the item if it's close
+      if (d < this.maxspeed) {
+
+        // Eat 1 of the closest
+        list.splice(i, 1);
+        this.health += nutrition;
+      } else {
+
+        if (d < record && d < perception) {
+          record = d;
+          closest = list[i];
+        }
       }
     }
 
-    // Eat the closest item
-    if (record < 5) {
-
-      // Eat 1 of the closest
-      list.splice(closest, 1);
-      this.health += nutrition;
-    } else if (closest > -1) {
-
-      // Seek the closest
-      return this.seek(list[closest]);
-    }
+    // Seek the closest
+    if (closest)
+      return this.seek(closest);
 
     // Seek nothing
     return createVector(0, 0);
