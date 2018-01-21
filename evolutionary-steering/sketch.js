@@ -1,10 +1,16 @@
-var vehicle
+var vehicles = [];
 var food = [];
 var poison = [];
 
 function setup() {
   createCanvas(640, 360);
-  vehicle = new Vehicle(width / 2, height / 2);
+
+  // Populate vehicles
+  for (var i = 0; i < 10; i++) {
+    var x = random(width);
+    var y = random(height);
+    vehicles[i] = new Vehicle(x, y);
+  }
 
   // Populate poison
   for (var i = 0; i < 10; i++) {
@@ -45,8 +51,9 @@ function draw() {
     ellipse(poison[i].x, poison[i].y, 8, 8);
   }
 
-  //vehicle.seek(target);
-  vehicle.behaviors(food, poison);
-  vehicle.update();
-  vehicle.display();
+  for (var i = 0; i < vehicles.length; i++) {
+    vehicles[i].behaviors(food, poison);
+    vehicles[i].update();
+    vehicles[i].display();
+  }
 }
