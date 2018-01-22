@@ -1,13 +1,16 @@
 var cities = [];
 var totalCities = 5;
 var population = [];
-var recordDistance;
+var fitness = [];
+var recordDistance = Infinity;
 var bestEver;
 
 // Setup function required by p5
 function setup() {
   createCanvas(400, 600);
   console.log('Project Started');
+
+  var order = [];
 
   // Create cities
   for (var i = 0; i < totalCities; i++) {
@@ -16,13 +19,26 @@ function setup() {
     order[i] = i;
   }
 
-  var d = calcDistance(cities);
-  recordDistance = d;
-  bestEver = order.slice();
+  for (var i = 0; i < 10; i++) {
+    population[i] = shuffle(order);
+  }
 
-  totalPermutations = factorial(totalCities);
-  console.log(totalPermutations);
-  count++;
+  for (var i = 0; i < population.length; i++) {
+    var d = calcDistance(cities, population[i]);
+    if (d < recordDistance) {
+      recordDistance = d;
+      bestEver = population[i];
+    }
+    fitness[i] = d;
+  }
+
+  // var d = calcDistance(cities);
+  // recordDistance = d;
+  // bestEver = order.slice();
+  //
+  // totalPermutations = factorial(totalCities);
+  // console.log(totalPermutations);
+  // count++;
 }
 
 // Animation loop
@@ -41,7 +57,7 @@ function draw() {
   noFill();
   strokeWeight(4);
   stroke(255, 0, 255);
-  for (var i = 0; i < order.length; i++) {
+  for (var i = 0; i < bestEver.length; i++) {
     var cityN = bestEver[i];
     vertex(cities[cityN].x, cities[cityN].y);
   }
@@ -53,35 +69,11 @@ function draw() {
   noFill();
   strokeWeight(1);
   stroke(255);
-  for (var i = 0; i < order.length; i++) {
-    var cityN = order[i];
+  for (var i = 0; i < bestEver.length; i++) {
+    var cityN = bestEver[i];
     vertex(cities[cityN].x, cities[cityN].y);
   }
   endShape();
-
-  // If we have a better total distance
-  var d = calcDistance(cities);
-  if (d < recordDistance) {
-    recordDistance = d;
-    bestEver = order.slice();
-  }
-
-  // Print out the city order
-  textSize(64);
-  var s = '';
-  for (var i = 0; i < order.length; i++) {
-    s += order[i];
-  }
-  fill(255);
-  text(s, 20, height - 90);
-
-  // Print out the percentage complete
-  textSize(30);
-  fill(255);
-  var percent = 100 * (count / totalPermutations);
-  text(nf(percent, 0, 2) + '% complete', 20, height - 50);
-
-  nextOrder();
 }
 
 // Simple swap of elements in array
@@ -92,7 +84,7 @@ function swap(a, i, j) {
 }
 
 // Find the total distance
-function calcDistance(points) {
+function calcDistance(points, order) {
   var sum = 0;
   for (var i = 0; i < points.length - 1; i++) {
     var cityAIndex = order[i];
@@ -138,12 +130,4 @@ function nextOrder() {
   order = order.concat(endArray);
 
   count++;
-}
-
-function factorial(n) {
-  if (n == 1)
-    return 1;
-  else {
-    return n * factorial(n - 1);
-  }
 }
