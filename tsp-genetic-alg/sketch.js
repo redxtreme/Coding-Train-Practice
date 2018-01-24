@@ -1,5 +1,6 @@
 var cities = [];
-var totalCities = 5;
+var totalCities = 10;
+var popSize = 10;
 var population = [];
 var fitness = [];
 var recordDistance = Infinity;
@@ -19,33 +20,20 @@ function setup() {
     order[i] = i;
   }
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < popSize; i++) {
     population[i] = shuffle(order);
   }
-
-  for (var i = 0; i < population.length; i++) {
-    var d = calcDistance(cities, population[i]);
-    if (d < recordDistance) {
-      recordDistance = d;
-      bestEver = population[i];
-    }
-    fitness[i] = d;
-  }
-
-  // var d = calcDistance(cities);
-  // recordDistance = d;
-  // bestEver = order.slice();
-  //
-  // totalPermutations = factorial(totalCities);
-  // console.log(totalPermutations);
-  // count++;
 }
 
 // Animation loop
 function draw() {
   background(51);
   fill(255);
-  //frameRate(5);
+
+  // GA
+  calculateFitness();
+  normalizeFitness();
+  nextGeneration();
 
   // Draw the cities
   for (var i = 0; i < cities.length; i++) {
@@ -96,38 +84,4 @@ function calcDistance(points, order) {
     sum += d;
   }
   return sum;
-}
-
-// Lexicographic order
-function nextOrder() {
-
-  // STEP 1 of the algorithm
-  // https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
-  var largestI = -1;
-  for (var i = 0; i < order.length - 1; i++) {
-    if (order[i] < order[i + 1]) {
-      largestI = i;
-    }
-  }
-  if (largestI == -1) {
-    noLoop();
-    console.log('finished');
-  }
-
-  // STEP 2
-  var largestJ = -1;
-  for (var j = 0; j < order.length; j++) {
-    if (order[largestI] < order[j]) {
-      largestJ = j;
-    }
-  }
-
-  swap(order, largestJ, largestI);
-
-  // Reverse from largestI + 1 to the end
-  var endArray = order.splice(largestI + 1);
-  endArray.reverse();
-  order = order.concat(endArray);
-
-  count++;
 }
