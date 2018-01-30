@@ -1,10 +1,11 @@
 var cities = [];
 var totalCities = 10;
-var popSize = 10;
+var popSize = 6;
 var population = [];
 var fitness = [];
 var recordDistance = Infinity;
 var bestEver;
+var currentBest;
 
 // Setup function required by p5
 function setup() {
@@ -29,6 +30,7 @@ function setup() {
 function draw() {
   background(51);
   fill(255);
+  noStroke();
 
   // GA
   calculateFitness();
@@ -60,6 +62,19 @@ function draw() {
   for (var i = 0; i < bestEver.length; i++) {
     var cityN = bestEver[i];
     vertex(cities[cityN].x, cities[cityN].y);
+  }
+  endShape();
+
+  // Draw the best path
+  beginShape();
+  noFill();
+  strokeWeight(1);
+  stroke(150, 150, 255);
+  //translate(0, height / 2);
+  for (var i = 0; i < currentBest.length; i++) {
+    var cityN = currentBest[i];
+    vertex(cities[cityN].x, cities[cityN].y);
+    ellipse(cities[cityN].x, cities[cityN].y, 16, 16);
   }
   endShape();
 }

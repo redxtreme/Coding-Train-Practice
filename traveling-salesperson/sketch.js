@@ -1,5 +1,5 @@
 var cities = [];
-var totalCities = 5;
+var totalCities = 6;
 var order = [];
 var recordDistance;
 var bestEver;
