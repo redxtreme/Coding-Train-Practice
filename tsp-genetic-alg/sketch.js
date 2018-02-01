@@ -9,7 +9,7 @@ var currentBest;
 
 // Setup function required by p5
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(600, 600);
   console.log('Project Started');
 
   var order = [];
