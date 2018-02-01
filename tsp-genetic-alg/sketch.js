@@ -1,6 +1,6 @@
 var cities = [];
-var totalCities = 10;
-var popSize = 6;
+var totalCities = 20;
+var popSize = 500;
 var population = [];
 var fitness = [];
 var recordDistance = Infinity;
@@ -9,7 +9,7 @@ var currentBest;
 
 // Setup function required by p5
 function setup() {
-  createCanvas(400, 600);
+  createCanvas(800, 600);
   console.log('Project Started');
 
   var order = [];
