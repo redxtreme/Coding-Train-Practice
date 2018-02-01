@@ -1,5 +1,5 @@
 var cities = [];
-var totalCities = 20;
+var totalCities = 12;
 var popSize = 500;
 var population = [];
 var fitness = [];
@@ -9,7 +9,7 @@ var currentBest;
 
 // Setup function required by p5
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(600, 600);
   console.log('Project Started');
 
   var order = [];
