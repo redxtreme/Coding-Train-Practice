@@ -33,7 +33,7 @@ function nextGeneration() {
     var orderA = pickOne(population, fitness);
     var orderB = pickOne(population, fitness);
     var order = crossOver(orderA, orderB);
-    mutate(order, 0.1); // Try different mutation rates
+    mutate(order, 0.01); // Try different mutation rates
     newPopulation[i] = order;
   }
   population = newPopulation;
