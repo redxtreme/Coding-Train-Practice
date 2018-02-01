@@ -11,7 +11,7 @@ function calculateFitness() {
       currentRecord = d;
       currentBest = population[i];
     }
-    
+
     fitness[i] = 1 / (d + 1);
   }
 }
@@ -31,7 +31,7 @@ function nextGeneration() {
 
   for (var i = 0; i < population.length; i++) {
     var order = pickOne(population, fitness);
-    mutate(order);
+    mutate(order, 0.1); // Try different mutation rates
     newPopulation[i] = order;
   }
   population = newPopulation;
@@ -54,7 +54,11 @@ function pickOne(list, prob) {
 }
 
 function mutate(order, mutationRate) {
-  var indexA = floor(random(order.length));
-  var indexB = floor(random(order.length));
-  swap(order, indexA, indexB);
+  for (var i = 0; i < totalCities; i++) {
+    if (random(1) < mutationRate) {
+      var indexA = floor(random(order.length));
+      var indexB = floor(random(order.length));
+      swap(order, indexA, indexB);
+    }
+  }
 }
