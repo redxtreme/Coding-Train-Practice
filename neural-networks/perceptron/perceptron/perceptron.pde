@@ -10,7 +10,8 @@ class Perceptron {
     }
   }
   
-  int sign(float n) {
+  // Custom sin function
+  int sin(float n) {
     if (n > 0)
       return 1;
     else
@@ -22,7 +23,7 @@ class Perceptron {
     for (int i = 0; i < weights.length; i++) {
       sum += inputs[i] * weights[i];
     }
-    int output = sign(sum);
+    int output = sin(sum);
     
     return output;
   }
